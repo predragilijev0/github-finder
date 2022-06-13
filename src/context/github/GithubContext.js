@@ -18,7 +18,11 @@ export const GithubProvider = ({ children }) => {
     const params = new URLSearchParams({
       q: text,
     })
-    const response = await fetch(`${GITHUB_URL}/search/users?${params}`)
+    const response = await fetch(`${GITHUB_URL}/search/users?${params}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    })
     const { items } = await response.json()
     dispatch({
       type: 'GET_USERS',
@@ -28,7 +32,11 @@ export const GithubProvider = ({ children }) => {
   // Get single user
   const getUser = async (login) => {
     setLoading()
-    const response = await fetch(`${GITHUB_URL}/users/${login}`)
+    const response = await fetch(`${GITHUB_URL}/users/${login}`, {
+      headers: {
+        Authorization: `token ${GITHUB_TOKEN}`,
+      },
+    })
     if (response.status === 404) {
       window.location = '/notfound'
     } else {
@@ -50,7 +58,13 @@ export const GithubProvider = ({ children }) => {
     })
 
     const response = await fetch(
-      `${GITHUB_URL}/users/${login}/repos?${params}`)
+      `${GITHUB_URL}/users/${login}/repos?${params}`,
+      {
+        headers: {
+          Authorization: `token ${GITHUB_TOKEN}`,
+        },
+      }
+    )
 
     const data = await response.json()
 
